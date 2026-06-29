@@ -54,7 +54,7 @@
       tAnno: '进入/退出标注 (⌥A)', tEdit: '点击编辑', tRemove: '删除', tSettings: '设置',
       sOk: 'daemon 已连接', sNoResp: 'daemon 无响应', sNo: 'daemon 未连接',
       noNote: '(无备注)', region: (w, h, n) => `▦ 区域 ${w}×${h} · ${n} 元素`,
-      lang: '语言', shortcuts: '快捷键',
+      lang: '语言', shortcuts: '快捷键', theme: '主题', dark: '暗色', light: '浅色',
       g: [['⌥A', '开关标注'], ['点击', '标注单个元素'], ['拖拽', '框选一片区域'],
           ['点钉 / 行', '编辑备注'], ['Esc', '退出标注'], ['Send', '发给 Claude Code']],
     },
@@ -69,7 +69,7 @@
       tAnno: 'Toggle annotate (⌥A)', tEdit: 'Click to edit', tRemove: 'Remove', tSettings: 'Settings',
       sOk: 'daemon connected', sNoResp: 'daemon not responding', sNo: 'daemon not connected',
       noNote: '(no note)', region: (w, h, n) => `▦ Region ${w}×${h} · ${n} elements`,
-      lang: 'Language', shortcuts: 'Shortcuts',
+      lang: 'Language', shortcuts: 'Shortcuts', theme: 'Theme', dark: 'Dark', light: 'Light',
       g: [['⌥A', 'Toggle annotate'], ['Click', 'Annotate an element'], ['Drag', 'Select a region'],
           ['Pin / Row', 'Edit note'], ['Esc', 'Exit annotate'], ['Send', 'Hand off to Claude Code']],
     },
@@ -77,78 +77,91 @@
   let lang = localStorage.getItem('__vibepin_lang') ||
     (String(navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
   const t = (k) => (I18N[lang] && I18N[lang][k] != null ? I18N[lang][k] : I18N.zh[k]);
+  let theme = localStorage.getItem('__vibepin_theme') || 'dark';
 
   // ---- UI ----------------------------------------------------------------
   const root = document.createElement('div');
   root.id = '__vibepin_root';
+  root.setAttribute('data-theme', theme);
   const shadow = root.attachShadow({ mode: 'open' });
   document.documentElement.appendChild(root);
 
   shadow.innerHTML = `
   <style>
-    :host { all: initial; }
+    :host { all: initial;
+      --ov-bg:#161616; --ov-bg2:#0f0f0f; --ov-border:#2c2c2c; --ov-border2:#262626; --ov-row:#1f1f1f;
+      --ov-text:#e8e8e8; --ov-muted:#9a9a9a; --ov-faint:#6f6f6f; --ov-chip:#222; --ov-chip-text:#cfcfcf;
+      --ov-accent:#f5c518; --ov-ink:#1a1a1a; --ov-accent-ink:#f5c518; --ov-sel:#7a8aa0; --ov-cmp:#8bd5a0;
+      --ov-seton:#2b2b2b; --ov-shadow:0 12px 40px rgba(0,0,0,.55); }
+    :host([data-theme="light"]) {
+      --ov-bg:#ffffff; --ov-bg2:#f3f3f5; --ov-border:#e3e3e8; --ov-border2:#ededf0; --ov-row:#eeeef1;
+      --ov-text:#1a1a1a; --ov-muted:#6a6a73; --ov-faint:#9a9aa3; --ov-chip:#eef0f2; --ov-chip-text:#33333a;
+      --ov-accent:#f5c518; --ov-ink:#161300; --ov-accent-ink:#8a6a00; --ov-sel:#5a6b85; --ov-cmp:#2e7d4f;
+      --ov-seton:#ececf0; --ov-shadow:0 12px 36px rgba(0,0,0,.18); }
     *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
     .hl{position:fixed;pointer-events:none;z-index:2147483640;border:2px solid #f5c518;
         background:rgba(245,197,24,.16);border-radius:3px;transition:all .04s linear}
     .band{position:fixed;pointer-events:none;z-index:2147483640;border:2px dashed #f5c518;
           background:rgba(245,197,24,.16);border-radius:2px}
-    .tag{position:fixed;z-index:2147483641;pointer-events:none;background:#f5c518;color:#1a1a1a;
+    .tag{position:fixed;z-index:2147483641;pointer-events:none;background:var(--ov-accent);color:var(--ov-ink);
          font-size:11px;padding:2px 6px;border-radius:4px;white-space:nowrap;max-width:60vw;overflow:hidden;text-overflow:ellipsis}
-    .panel{position:fixed;right:16px;top:16px;z-index:2147483642;width:300px;
-           background:#161616;color:#e8e8e8;border:1px solid #2c2c2c;border-radius:12px;
-           box-shadow:0 12px 40px rgba(0,0,0,.55);overflow:hidden}
+    .panel{position:fixed;right:16px;top:16px;z-index:2147483642;width:auto;
+           background:var(--ov-bg);color:var(--ov-text);border:1px solid var(--ov-border);border-radius:12px;
+           box-shadow:var(--ov-shadow);overflow:hidden}
+    .panel.open{width:300px}
     .phead{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:grab;user-select:none}
     .phead:active{cursor:grabbing}
-    .grip{display:flex;align-items:center;color:#555;cursor:grab}
-    .atog{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:#222;color:#cfcfcf;padding:5px 12px 5px 10px;font-size:12px;border-radius:7px}
-    .atog.on{background:#f5c518;color:#1a1a1a;font-weight:600}
+    .grip{display:flex;align-items:center;color:var(--ov-faint);cursor:grab}
+    .atog{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:var(--ov-chip);color:var(--ov-chip-text);padding:5px 12px 5px 10px;font-size:12px;border-radius:7px}
+    .atog.on{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
     .grip svg,.atog svg,.setbtn svg,.hidebtn svg{display:block}
-    .count{font-size:11px;color:#9a9a9a;margin-left:auto}
-    .hidebtn{flex:0 0 auto;background:transparent;color:#777;padding:2px 7px;font-size:15px;line-height:1;border-radius:6px}
+    .count{font-size:11px;color:var(--ov-muted);margin-left:auto}
+    .hidebtn{flex:0 0 auto;background:transparent;color:var(--ov-faint);padding:2px 7px;font-size:15px;line-height:1;border-radius:6px}
     .hidebtn:hover{color:#e05656}
-    .setbtn{flex:0 0 auto;background:transparent;color:#888;padding:3px 6px;font-size:13px;line-height:1;border-radius:6px}
-    .setbtn:hover{color:#ddd}
-    .setbtn.on{background:#2b2b2b;color:#f5c518}
-    .settings{padding:10px 12px;border-top:1px solid #262626}
+    .setbtn{flex:0 0 auto;background:transparent;color:var(--ov-muted);padding:3px 6px;font-size:13px;line-height:1;border-radius:6px}
+    .setbtn:hover{color:var(--ov-text)}
+    .setbtn.on{background:var(--ov-seton);color:var(--ov-accent-ink)}
+    .settings{padding:10px 12px;border-top:1px solid var(--ov-border2)}
     .setrow{display:flex;align-items:center;justify-content:space-between}
-    .langlabel{font-size:11px;color:#777}
-    .seg2{display:inline-flex;border:1px solid #2c2c2c;border-radius:7px;overflow:hidden}
-    .seg2 button{flex:0 0 auto;background:transparent;color:#9a9a9a;padding:3px 11px;font-size:11px;border-radius:0}
-    .seg2 button.on{background:#f5c518;color:#1a1a1a;font-weight:600}
-    .seg2 button+button{border-left:1px solid #2c2c2c}
-    .setdiv{height:1px;background:#262626;margin:12px 0}
-    .setgt{color:#7e7e7e;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+    .setrow+.setrow{margin-top:10px}
+    .langlabel{font-size:11px;color:var(--ov-faint)}
+    .seg2{display:inline-flex;border:1px solid var(--ov-border);border-radius:7px;overflow:hidden}
+    .seg2 button{flex:0 0 auto;background:transparent;color:var(--ov-muted);padding:3px 11px;font-size:11px;border-radius:0}
+    .seg2 button.on{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
+    .seg2 button+button{border-left:1px solid var(--ov-border)}
+    .setdiv{height:1px;background:var(--ov-border2);margin:12px 0}
+    .setgt{color:var(--ov-faint);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
     .guide{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}
-    .gkey{justify-self:start;padding:2px 8px;background:#0f0f0f;border:1px solid #333;border-radius:5px;
-          font:11px/1.5 ui-monospace,Menlo,monospace;color:#eaeaea;white-space:nowrap}
-    .gdesc{color:#b8b8b8;font-size:12px}
+    .gkey{justify-self:start;padding:2px 8px;background:var(--ov-bg2);border:1px solid var(--ov-border);border-radius:5px;
+          font:11px/1.5 ui-monospace,Menlo,monospace;color:var(--ov-text);white-space:nowrap}
+    .gdesc{color:var(--ov-muted);font-size:12px}
     .status{width:8px;height:8px;border-radius:50%;background:#555;flex:0 0 auto}
     .status.ok{background:#36d399}
     .pin{position:fixed;z-index:2147483641;transform:translate(-50%,-50%);min-width:18px;height:18px;padding:0 4px;
          border-radius:9px;background:#f5c518;color:#1a1a1a;font-size:11px;font-weight:700;line-height:18px;
          text-align:center;cursor:pointer;pointer-events:auto;box-shadow:0 2px 6px rgba(0,0,0,.5)}
-    .body{border-top:1px solid #262626}
+    .body{border-top:1px solid var(--ov-border2)}
     .list{max-height:240px;overflow:auto}
-    .row{padding:8px 12px;border-bottom:1px solid #1f1f1f;display:flex;gap:8px;align-items:flex-start}
-    .row .sel{font-size:10px;color:#7a8aa0;font-family:ui-monospace,Menlo,monospace;word-break:break-all}
-    .row .cmp{color:#8bd5a0}
-    .row .nt{font-size:12px;color:#ddd;margin-top:2px}
-    .row .x{margin-left:auto;color:#666;cursor:pointer;pointer-events:auto;font-size:14px;line-height:1}
+    .row{padding:8px 12px;border-bottom:1px solid var(--ov-row);display:flex;gap:8px;align-items:flex-start}
+    .row .sel{font-size:10px;color:var(--ov-sel);font-family:ui-monospace,Menlo,monospace;word-break:break-all}
+    .row .cmp{color:var(--ov-cmp)}
+    .row .nt{font-size:12px;color:var(--ov-text);margin-top:2px}
+    .row .x{margin-left:auto;color:var(--ov-muted);cursor:pointer;pointer-events:auto;font-size:14px;line-height:1}
     .row .x:hover{color:#e05656}
-    .pinno{flex:0 0 auto;width:16px;height:16px;border-radius:8px;background:#2a2a2a;color:#f5c518;font-size:10px;font-weight:700;line-height:16px;text-align:center}
+    .pinno{flex:0 0 auto;width:16px;height:16px;border-radius:8px;background:var(--ov-chip);color:var(--ov-accent-ink);font-size:10px;font-weight:700;line-height:16px;text-align:center}
     .foot{display:flex;gap:8px;padding:10px 12px}
     button{flex:1;border:0;border-radius:8px;padding:9px;font-size:13px;cursor:pointer;pointer-events:auto}
-    .send{background:#f5c518;color:#1a1a1a;font-weight:600}
-    .send:disabled{background:#2a2a2a;color:#666;cursor:default}
-    .clear{background:#222;color:#bbb}
-    .empty{padding:18px 12px;color:#777;font-size:12px;text-align:center}
-    .pop{position:fixed;z-index:2147483643;width:280px;background:#161616;border:1px solid #2c2c2c;
-         border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.55);padding:10px;pointer-events:auto}
-    .pop .sel{font-size:10px;color:#7a8aa0;font-family:ui-monospace,Menlo,monospace;word-break:break-all;margin-bottom:6px}
-    .pop .sel .cmp{color:#8bd5a0}
-    textarea{width:100%;height:64px;resize:none;background:#0f0f0f;color:#eee;border:1px solid #2c2c2c;
+    .send{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
+    .send:disabled{background:var(--ov-chip);color:var(--ov-faint);cursor:default}
+    .clear{background:var(--ov-chip);color:var(--ov-text)}
+    .empty{padding:18px 12px;color:var(--ov-faint);font-size:12px;text-align:center}
+    .pop{position:fixed;z-index:2147483643;width:280px;background:var(--ov-bg);border:1px solid var(--ov-border);
+         border-radius:10px;box-shadow:var(--ov-shadow);padding:10px;pointer-events:auto}
+    .pop .sel{font-size:10px;color:var(--ov-sel);font-family:ui-monospace,Menlo,monospace;word-break:break-all;margin-bottom:6px}
+    .pop .sel .cmp{color:var(--ov-cmp)}
+    textarea{width:100%;height:64px;resize:none;background:var(--ov-bg2);color:var(--ov-text);border:1px solid var(--ov-border);
              border-radius:8px;padding:8px;font-size:13px;font-family:inherit}
-    textarea:focus{outline:none;border-color:#f5c518}
+    textarea:focus{outline:none;border-color:var(--ov-accent)}
     .pact{display:flex;gap:6px;margin-top:8px}
     .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483644;
            background:#1b3a1b;color:#bdf0bd;border:1px solid #2e572e;padding:8px 14px;border-radius:8px;font-size:12px;opacity:0;transition:opacity .2s}
@@ -435,6 +448,8 @@
     setBtn.classList.toggle('on', settingsOpen);
     settingsEl.classList.toggle('hidden', !settingsOpen);
     bodyEl.classList.toggle('hidden', settingsOpen || !(on || pending.length));
+    // compact pill when idle; full-width when the body/settings is open
+    panel.classList.toggle('open', !!(settingsOpen || on || pending.length));
   }
 
   // ---- pending list ------------------------------------------------------
@@ -535,18 +550,29 @@
       g.map(([k, d]) => `<kbd class="gkey">${esc(k)}</kbd><span class="gdesc">${esc(d)}</span>`).join('') +
       `</div>` +
       `<div class="setdiv"></div>` +
-      `<div class="setrow lang"><span class="langlabel">${esc(t('lang'))}</span>` +
+      `<div class="setrow"><span class="langlabel">${esc(t('theme'))}</span>` +
+      `<span class="seg2">` +
+      `<button data-tm="dark" class="${theme === 'dark' ? 'on' : ''}">${esc(t('dark'))}</button>` +
+      `<button data-tm="light" class="${theme === 'light' ? 'on' : ''}">${esc(t('light'))}</button>` +
+      `</span></div>` +
+      `<div class="setrow"><span class="langlabel">${esc(t('lang'))}</span>` +
       `<span class="seg2">` +
       `<button data-l="zh" class="${lang === 'zh' ? 'on' : ''}">中文</button>` +
       `<button data-l="en" class="${lang === 'en' ? 'on' : ''}">English</button>` +
       `</span></div>`;
-    settingsEl.querySelectorAll('.seg2 button').forEach((b) =>
-      b.addEventListener('click', () => setLang(b.dataset.l)));
+    settingsEl.querySelectorAll('[data-l]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.l)));
+    settingsEl.querySelectorAll('[data-tm]').forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.tm)));
   }
   function setLang(l) {
     lang = l;
     try { localStorage.setItem('__vibepin_lang', l); } catch { /* ignore */ }
     applyI18n();
+  }
+  function setTheme(tm) {
+    theme = tm;
+    root.setAttribute('data-theme', tm);
+    try { localStorage.setItem('__vibepin_theme', tm); } catch { /* ignore */ }
+    renderSettings();
   }
   function applyI18n() {
     pheadEl.querySelector('.grip').title = t('tDrag');
