@@ -1,0 +1,41 @@
+:root {
+  --bg: #0f1012;
+  --surface: #17181b;
+  --surface-2: #1e2024;
+  --border: #2a2d33;
+  --text: #e9eaec;
+  --muted: #8b9098;
+  --accent: #3b82f6;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+.header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+.header h1 { font-size: 20px; margin: 0; }
+.header .hint { color: var(--muted); font-size: 13px; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 20px; }
+.btn {
+  background: var(--accent); color: #fff; border: 0; border-radius: 6px;
+  padding: 4px 10px; font-size: 12px; cursor: pointer;
+}
+.btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden;
+}
+.thumb { aspect-ratio: 1 / 1; background: linear-gradient(135deg, #2b3a55, #1a2233); }
+.tone-b .thumb { background: linear-gradient(135deg, #4a3b55, #221a2b); }
+.tone-c .thumb { background: linear-gradient(135deg, #3b5547, #1a2b22); }
+.tone-d .thumb { background: linear-gradient(135deg, #553b3b, #2b1a1a); }
+.tone-e .thumb { background: linear-gradient(135deg, #3b4d55, #1a262b); }
+.tone-f .thumb { background: linear-gradient(135deg, #55503b, #2b271a); }
+.meta { padding: 12px 14px; }
+.meta .title { font-size: 14px; font-weight: 600; }
+.meta .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.footer { margin-top: 32px; color: var(--muted); font-size: 12px; }

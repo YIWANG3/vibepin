@@ -1,0 +1,13 @@
+{
+  "name": "vibepin-example-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vibepin": "file:../..",
+    "vite": "^8.1.0"
+  }
+}

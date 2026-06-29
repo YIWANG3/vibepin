@@ -1,0 +1,56 @@
+{
+  "name": "vibepin",
+  "version": "0.1.0",
+  "description": "Drop a pin on any UI element, write what to change, and your AI coding agent edits the source. In-browser visual annotation for Claude Code, Cursor, and any MCP agent — web + Electron.",
+  "keywords": [
+    "annotation",
+    "visual-feedback",
+    "ai",
+    "coding-agent",
+    "claude-code",
+    "cursor",
+    "mcp",
+    "vite",
+    "electron",
+    "devtools",
+    "ui",
+    "feedback-loop"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/YIWANG3/vibepin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YIWANG3/vibepin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YIWANG3/vibepin/issues"
+  },
+  "type": "module",
+  "bin": {
+    "vibepin": "./bin/vibepin.js"
+  },
+  "exports": {
+    ".": "./adapters/vite.js",
+    "./vite": "./adapters/vite.js",
+    "./daemon": "./daemon/daemon.js"
+  },
+  "files": [
+    "bin",
+    "core",
+    "daemon",
+    "adapters",
+    "README.md"
+  ],
+  "scripts": {
+    "daemon": "node daemon/daemon.js",
+    "watch": "node daemon/watch.js",
+    "claim": "node daemon/claim.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
