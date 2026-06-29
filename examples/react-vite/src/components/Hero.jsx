@@ -18,8 +18,8 @@ export default function Hero() {
       </div>
 
       <div className="tryhint">
-        👆 This page is a live React app. Press <kbd>⌥A</kbd>, click this headline, type
-        <b> “make it bigger” </b>, hit Send — vibepin pins the exact component and your agent
+        👆 Every block on this page is a React component. <b>Run this example locally</b>, press
+        <kbd> ⌥A </kbd>, click the headline, type “make it bigger” — vibepin pins it and your agent
         edits <code>Hero.jsx</code>.
       </div>
 
