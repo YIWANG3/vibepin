@@ -2,6 +2,7 @@ node_modules/
 .vibepin/
 .annotate-loop/
 dist/
+.next/
 *.log
 .DS_Store
 .env

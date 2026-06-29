@@ -99,6 +99,8 @@ open http://127.0.0.1:7331/           # demo page; press ⌥A, click, type, Send
   Vite plugin that auto-spawns the daemon and injects the overlay. `npm install && npm run dev`.
 - [examples/react-vite](examples/react-vite) — React app; annotations carry the
   **component name + source file:line** (not just a selector). `npm install && npm run dev`.
+- [examples/nextjs](examples/nextjs) — Next.js (App Router); `withVibepin` auto-starts the
+  daemon, overlay injected via a dev `<Script>`. `npm install && npm run dev`.
 - [examples/electron](examples/electron) — Electron app; main.js injects the overlay
   in dev and exposes `capturePage` for pixel-perfect crops. `npm install && npm run dev`.
 

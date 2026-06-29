@@ -1,0 +1,42 @@
+:root {
+  --bg: #0b0b0e;
+  --surface: #141418;
+  --border: #26262d;
+  --text: #ededf1;
+  --muted: #8b8b95;
+  --accent: #f5c518;
+  --accent-soft: rgba(245, 197, 24, 0.14);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 500px at 80% -10%, rgba(245,197,24,0.10), transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 56px 24px 80px; }
+.hero { text-align: center; margin-bottom: 36px; }
+.badge { display: inline-flex; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px;
+  color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(245,197,24,0.3);
+  padding: 6px 12px; border-radius: 999px; }
+.hero h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; margin: 18px 0 0; font-weight: 800; }
+.hero h1 .accent { background: linear-gradient(92deg, #f5c518, #fcd34d);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lede { color: var(--muted); font-size: 16px; max-width: 560px; margin: 16px auto 0; }
+.lede kbd { font-family: ui-monospace, Menlo, monospace; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 5px; padding: 1px 7px; color: var(--text); font-size: 12px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.thumb { aspect-ratio: 4 / 3; background: linear-gradient(135deg, #2b3a55, #1a2233); }
+.tone-b .thumb { background: linear-gradient(135deg, #4a3b55, #221a2b); }
+.tone-c .thumb { background: linear-gradient(135deg, #3b5547, #1a2b22); }
+.tone-d .thumb { background: linear-gradient(135deg, #553b3b, #2b1a1a); }
+.tone-e .thumb { background: linear-gradient(135deg, #3b4d55, #1a262b); }
+.tone-f .thumb { background: linear-gradient(135deg, #55503b, #2b271a); }
+.meta { padding: 12px 14px; }
+.meta .title { font-size: 14px; font-weight: 600; }
+.meta .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
