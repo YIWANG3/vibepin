@@ -93,8 +93,7 @@ a { color: inherit; text-decoration: none; }
 
 /* demo video */
 .demo { padding: 8px 0 8px; }
-.demoframe { max-width: 940px; margin: 0 auto; border: 1px solid var(--border); border-radius: 16px;
-  overflow: hidden; background: #000; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+.demoframe { max-width: 940px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
 .demoframe video { display: block; width: 100%; height: auto; }
 
 /* sections */
