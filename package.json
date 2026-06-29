@@ -1,6 +1,6 @@
 {
   "name": "vibepin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Drop a pin on any UI element, write what to change, and your AI coding agent edits the source. In-browser visual annotation for Claude Code, Cursor, and any MCP agent — web + Electron.",
   "keywords": [
     "annotation",
