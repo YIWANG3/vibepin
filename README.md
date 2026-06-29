@@ -69,36 +69,38 @@ open http://127.0.0.1:7331/           # demo page; press Alt+A, click, type, Sen
 
 Shortcuts: **⌥A / Alt+A** toggle · **Esc** exit.
 
-## The Claude Code loop — two ways
+## The Claude Code loop
 
-### A) MCP watch mode (recommended)
+### Recommended: the `/vpin` command
 
-Like vibe-annotations' "start watching", but the overlay it feeds is universal
-(web + Electron + pixel capture), not a Chrome extension. Needs `npm install`
-(pulls `@modelcontextprotocol/sdk`); the daemon then serves `/mcp`.
+`/vpin` is a Claude Code slash command — it lives in Claude Code's config, not in
+node_modules, so npm can't install it. A CLI does:
+
+```bash
+npx vibepin init     # writes ~/.claude/commands/vpin.md — then restart Claude Code
+```
+
+Then in any project, run **`/vpin`**. It parks a background file watcher and hands
+control back to you; each time you Send annotations it wakes, edits the right files,
+and re-arms. **Zero idle token cost** — the waiting happens in a shell process, not
+the model — and you can keep typing other requests in the same window.
+
+Under the hood it loops `vibepin watch` (blocks until the inbox grows) → `vibepin claim`
+(drains + archives as JSON) → edit → re-arm.
+
+### Alternative: MCP watch mode
+
+Register the daemon's `/mcp` and tell Claude Code **“start watching vibepin”**:
 
 ```bash
 claude mcp add --transport http vibepin http://127.0.0.1:7331/mcp
 ```
 
-Then tell Claude Code **“start watching vibepin”**. It calls the tools in a loop:
+Tools: `watch_annotations` (long-poll), `list_annotations`, `resolve_annotation`.
+Note: the agent **polls**, so it keeps spending tokens while idle — fine for
+hands-free, worse for cost. Needs `npm install` (pulls `@modelcontextprotocol/sdk`).
 
-- `watch_annotations` — long-polls; blocks until new annotations arrive, returns them (`[]` on timeout → call again).
-- `list_annotations` — current pending, no drain.
-- `resolve_annotation { ids }` — mark done, remove from inbox, archive to `processed.jsonl`.
-
-### B) File watcher (zero-dep, no MCP)
-
-If you'd rather not register an MCP server, the daemon runs in plain file mode too:
-
-> Background-run `node <vibepin>/daemon/watch.js --inbox <repo>/.vibepin/inbox.jsonl`.
-> When it exits, run `node <vibepin>/daemon/claim.js --inbox <same>`, apply each
-> annotation, then re-arm `watch.js`. Repeat.
-
-- `watch.js` — blocks until inbox grows, then exits 0 (the wake primitive). Zero deps, no `fswatch`.
-- `claim.js` — atomically drains the inbox, archives to `processed.jsonl`, prints the batch as JSON.
-
-Both modes read the same `.vibepin/inbox.jsonl`, so you can use either.
+Both modes read the same `.vibepin/inbox.jsonl`.
 
 ## Overlay UX
 

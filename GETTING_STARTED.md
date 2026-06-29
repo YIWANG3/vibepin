@@ -105,13 +105,14 @@ daemon 跑着的时候,在页面里加一行即可:
 
 ### 推荐:`/vpin` 一键启动(省 token)
 
-先把斜杠命令装到全局(只做一次):
+先安装斜杠命令(只做一次)。`/vpin` 是 Claude Code 的命令配置,**npm 不会帮你装**,
+所以提供一条 CLI 把它写到 `~/.claude/commands/`:
 
 ```bash
-cp ~/Desktop/workspace/vibepin/.claude/commands/vpin.md ~/.claude/commands/vpin.md
+npx vibepin init
 ```
 
-之后在**任意项目**的 Claude Code 会话里,直接输:
+(装完**重启一次 Claude Code** 让它加载命令。)之后在**任意项目**的会话里,直接输:
 
 ```
 /vpin

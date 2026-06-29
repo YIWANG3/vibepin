@@ -39,6 +39,7 @@
     "core",
     "daemon",
     "adapters",
+    ".claude/commands/vpin.md",
     "README.md"
   ],
   "scripts": {

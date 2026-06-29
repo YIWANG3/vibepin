@@ -26,5 +26,5 @@ watcher 在后台阻塞时你处于空闲、不花 token。其间我可能直接
 
 停止:杀掉后台的 watch 任务即可。
 
-> 发行副本。要在任意项目用 `/vpin`,拷到 `~/.claude/commands/vpin.md`(命令是全局工具配置,
+> 发行副本。要在任意项目用 `/vpin`,运行 `npx vibepin init` 装到 `~/.claude/commands/`(命令是全局工具配置,
 > 不进你的项目 repo)。项目侧只需 `npm i -D vibepin`,repo 保持干净。
