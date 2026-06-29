@@ -13,8 +13,48 @@ a web dev server **or** an Electron renderer — with React component + `file:li
 
 Works with **Claude Code** out of the box; any MCP-capable agent via the MCP tools.
 
-> 🚀 第一次用?看 **[上手指南 GETTING_STARTED.md](GETTING_STARTED.md)**(5 分钟跑通,中文)。
-> Below: architecture & reference.
+> 🌐 **Live demo / landing page:** https://yiwang3.github.io/vibepin
+> 🚀 中文上手指南:[GETTING_STARTED.md](GETTING_STARTED.md)
+
+## Quick start
+
+### A. Try it (bundled examples)
+
+```bash
+git clone https://github.com/YIWANG3/vibepin
+cd vibepin/examples/react-vite     # or web-vite / electron
+npm install
+npm run dev                        # opens a dev server (Electron: a window) with the overlay
+```
+
+1. Open the printed URL. Press **⌥A** (Option+A), click an element (or drag a box), type a note, hit **Send**.
+2. Install the Claude Code command once, then restart Claude Code:
+   ```bash
+   npx vibepin init               # adds the /vpin slash command
+   ```
+3. In a Claude Code session **in that folder**, run **`/vpin`**. It watches the inbox and
+   edits the right file every time you Send — React annotations even carry the component
+   name + `file:line`.
+
+### B. Use it in your own project
+
+1. **Install:** `npm i -D vibepin`
+2. **Inject the overlay** (dev only — pick one):
+   - **Vite (web / React)** — in `vite.config.js`:
+     ```js
+     import vibepin from 'vibepin/vite';
+     export default defineConfig({ plugins: [vibepin()] }); // after react()
+     ```
+   - **Electron** — see [adapters/electron.md](adapters/electron.md).
+   - **Anything else** — run `npx vibepin daemon`, then add
+     `<script src="http://127.0.0.1:7331/annotate.js"></script>` to your dev HTML.
+3. **Install the command:** `npx vibepin init` (once), then restart Claude Code.
+4. Add `.vibepin/` to your `.gitignore`.
+5. Start your dev server, open Claude Code in the project root, run **`/vpin`**, then annotate in the browser.
+
+---
+
+Below: architecture & reference.
 
 ```
 [any page] annotate.js  ──POST──►  daemon :7331  ──►  .vibepin/inbox.jsonl
@@ -42,11 +82,11 @@ and lets the harness re-invoke the agent. Same loop, two transports.
 The overlay (`core/annotate.js`) is one file, identical everywhere. Only the
 injection vector differs.
 
-## Quick start (standalone, no project needed)
+## Standalone daemon (no project)
 
 ```bash
-node daemon/daemon.js                 # serves overlay + demo + collects annotations
-open http://127.0.0.1:7331/           # demo page; press Alt+A, click, type, Send
+npx vibepin daemon                    # serves overlay + demo + collects annotations
+open http://127.0.0.1:7331/           # demo page; press ⌥A, click, type, Send
 ```
 
 ## Runnable examples
@@ -56,7 +96,7 @@ open http://127.0.0.1:7331/           # demo page; press Alt+A, click, type, Sen
 - [examples/react-vite](examples/react-vite) — React app; annotations carry the
   **component name + source file:line** (not just a selector). `npm install && npm run dev`.
 - [examples/electron](examples/electron) — Electron app; main.js injects the overlay
-  in dev and exposes `capturePage` for pixel-perfect crops. `npm install && npm start`.
+  in dev and exposes `capturePage` for pixel-perfect crops. `npm install && npm run dev`.
 
 ## Two gestures — no mode switch
 
