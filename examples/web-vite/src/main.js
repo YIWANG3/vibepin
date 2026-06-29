@@ -24,9 +24,9 @@ document.querySelector('#app').innerHTML = `
       <a class="btn primary" href="https://github.com/YIWANG3/vibepin">Get started →</a>
       <a class="btn ghost" href="https://github.com/YIWANG3/vibepin">★ Star on GitHub</a>
     </div>
-    <div class="tryhint">👆 This page is a plain HTML app. Press <kbd>⌥A</kbd>, click this headline,
-      type <b>“make it bigger”</b>, hit Send — vibepin pins the element (with its CSS selector)
-      and your agent edits <code>src/main.js</code>.</div>
+    <div class="tryhint">👆 This page is a plain HTML app. Run it locally and
+      <span class="nb">press <kbd>⌥A</kbd></span> to annotate — vibepin pins the element with its
+      CSS selector and your agent edits <code>src/main.js</code>.</div>
   </header>
 
   <section class="block" id="how"><div class="container">

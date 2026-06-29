@@ -46,6 +46,7 @@
         border:1px dashed var(--border); border-radius:12px; padding:14px 18px; }
       .tryhint kbd { font-family:ui-monospace,Menlo,monospace; background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:1px 7px; color:var(--text); font-size:12px; }
       .tryhint b { color:var(--accent-ink); font-weight:600; }
+      .nb { white-space:nowrap; }
       .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:24px 0 64px; }
       .step { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; }
       .step .n { width:32px; height:32px; border-radius:10px; background:var(--accent-soft); color:var(--accent-ink);
@@ -71,8 +72,9 @@
         <a class="btn primary" href="https://github.com/YIWANG3/vibepin">Get started →</a>
         <a class="btn ghost" href="https://github.com/YIWANG3/vibepin">★ GitHub</a>
       </div>
-      <div class="tryhint">👆 Press <kbd>⌥A</kbd>, click this headline, type <b>“make it bigger”</b>, hit Send.
-        The annotation carries a real screenshot (📷) — something a plain browser page can’t do.</div>
+      <div class="tryhint">👆 <span class="nb">Press <kbd>⌥A</kbd></span>, click this headline, type
+        <b>“make it bigger”</b>, hit Send. The annotation carries a real screenshot (📷) —
+        something a plain browser page can’t do.</div>
     </header>
 
     <section class="container"><div class="steps">

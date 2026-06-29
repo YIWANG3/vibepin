@@ -18,9 +18,9 @@ export default function Hero() {
       </div>
 
       <div className="tryhint">
-        👆 Every block on this page is a React component. <b>Run this example locally</b>, press
-        <kbd> ⌥A </kbd>, click the headline, type “make it bigger” — vibepin pins it and your agent
-        edits <code>Hero.jsx</code>.
+        👆 Every block here is a real React component. <b>Run this example locally</b> and{' '}
+        <span className="nb">press <kbd>⌥A</kbd></span> to annotate it — your agent edits the matching
+        file, e.g. <code>Hero.jsx</code>.
       </div>
 
       <div className="codecard">
