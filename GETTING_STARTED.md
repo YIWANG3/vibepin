@@ -103,18 +103,18 @@ daemon 跑着的时候,在页面里加一行即可:
 到这里你能"点 + 写 + Send",标注会进到项目里的 `.vibepin/inbox.jsonl`。
 最后一步是让 Claude Code **自动收取并实现**。
 
-### 推荐:`/aw` 一键启动(省 token)
+### 推荐:`/vpin` 一键启动(省 token)
 
 先把斜杠命令装到全局(只做一次):
 
 ```bash
-cp ~/Desktop/workspace/vibepin/.claude/commands/aw.md ~/.claude/commands/aw.md
+cp ~/Desktop/workspace/vibepin/.claude/commands/vpin.md ~/.claude/commands/vpin.md
 ```
 
 之后在**任意项目**的 Claude Code 会话里,直接输:
 
 ```
-/aw
+/vpin
 ```
 
 它会用**后台文件 watcher** 挂起监听,然后**把输入权还给你**:
@@ -126,7 +126,7 @@ cp ~/Desktop/workspace/vibepin/.claude/commands/aw.md ~/.claude/commands/aw.md
 停止:让它杀掉后台 watch.js 任务,或直接 Esc / 关窗口。
 
 > **为什么不用 MCP 的 `watch_annotations`?** 那是"模型轮询":每隔几十秒模型被重新唤起、
-> 重读上下文再查一次,**空闲也持续烧 token**。`/aw` 的文件 watcher 把"等待"放在模型外面,空闲零成本。
+> 重读上下文再查一次,**空闲也持续烧 token**。`/vpin` 的文件 watcher 把"等待"放在模型外面,空闲零成本。
 > (MCP 模式仍可用,见 [README.md](README.md);适合只想 hands-free、不在乎 token 的场景。)
 
 ---
@@ -134,7 +134,7 @@ cp ~/Desktop/workspace/vibepin/.claude/commands/aw.md ~/.claude/commands/aw.md
 ## 4. 日常三步
 
 1. 起项目 dev(daemon 会自动跟着起)。
-2. Claude Code 里输 **`/aw`**(一次)—— 挂上监听,窗口照常可用。
+2. Claude Code 里输 **`/vpin`**(一次)—— 挂上监听,窗口照常可用。
 3. 浏览器/app 里:**⌥A → 点元素或拖框 → 写中文 → Send** —— 自动改,空闲不花 token。
 
 ---
