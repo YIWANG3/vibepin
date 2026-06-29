@@ -125,10 +125,9 @@
     .setrow{display:flex;align-items:center;justify-content:space-between}
     .setrow+.setrow{margin-top:10px}
     .langlabel{font-size:11px;color:var(--ov-faint)}
-    .seg2{display:inline-flex;border:1px solid var(--ov-border);border-radius:7px;overflow:hidden}
-    .seg2 button{flex:0 0 auto;background:transparent;color:var(--ov-muted);padding:3px 11px;font-size:11px;border-radius:0}
+    .seg2{display:inline-flex;gap:2px;background:var(--ov-chip);border-radius:8px;padding:2px}
+    .seg2 button{flex:0 0 auto;background:transparent;color:var(--ov-muted);padding:3px 11px;font-size:11px;border-radius:6px}
     .seg2 button.on{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
-    .seg2 button+button{border-left:1px solid var(--ov-border)}
     .setdiv{height:1px;background:var(--ov-border2);margin:12px 0}
     .setgt{color:var(--ov-faint);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
     .guide{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}
