@@ -50,6 +50,16 @@ function createWindow() {
       });
       return img.toDataURL();
     });
+
+    // Dev live-reload: reload the window when index.html changes, so the agent's
+    // edits show up without a manual ⌘R (no HMR for a static loadFile otherwise).
+    let reloadTimer = null;
+    require('node:fs').watch(ROOT, (_evt, file) => {
+      if (file === 'index.html') {
+        clearTimeout(reloadTimer);
+        reloadTimer = setTimeout(() => { if (!win.isDestroyed()) win.webContents.reload(); }, 150);
+      }
+    });
   }
 }
 

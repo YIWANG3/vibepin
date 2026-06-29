@@ -20,7 +20,8 @@ Do this, then loop:
    - `kind: "element"` → prefer `component` + `source` (React) to open the right file;
      otherwise use `selector` / `html` / `styles`.
    - `kind: "region"` → use `rect` + `elements` (the components inside the box).
-   Briefly say what you changed and which files.
+   Briefly say what you changed and which files. (`claim` already archives them to
+   processed.jsonl — there is no separate "resolve" step; do not call `vibepin resolve`.)
 
 3. Re-launch step 1 (`npx vibepin watch`) in the background, then end the turn.
 
