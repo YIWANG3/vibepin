@@ -71,7 +71,7 @@ export default defineConfig({
 然后正常 `npm run dev`。插件会在 dev 模式**自动帮你把 daemon 起起来、把覆盖层注入页面**,你什么都不用多做。打开 dev 地址,⌥A 就能用。
 
 > **React 福利**:在 React 开发模式下,标注会自动带上**组件名 + 源文件:行号**
-> (例如 `<Card> src/components/Card.jsx:5`),Claude Code 直接打开那个组件文件改,不靠猜。
+> (例如 `<Hero> src/components/Hero.jsx:7`),Claude Code 直接打开那个组件文件改,不靠猜。
 
 想直接看效果,跑仓库里的现成示例:
 

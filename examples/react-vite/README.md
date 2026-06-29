@@ -1,7 +1,8 @@
-# React example (component-aware annotations)
+# React example — the vibepin landing page (component-aware)
 
-Same one-plugin integration, but on a React app — so annotations carry the
-**component name** and **source file:line**, not just a CSS selector.
+This example **is** the vibepin landing page, built as a real React app. So it
+both shows what vibepin is *and* lets you try it: annotate the page and the note
+carries the **component name** + **source file:line**, not just a CSS selector.
 
 ```bash
 npm install
@@ -11,15 +12,15 @@ npm run dev      # vite + react + vibepin daemon, all in one
 Open the printed URL. Then:
 
 1. **⌥A** (Option+A) → annotate mode.
-2. **Click** an element (`Card`, a `Toolbar` button, the `<h1>`) — the popup
-   shows e.g. `<Card> src/components/Card.jsx:5`.
+2. **Click** the headline, a step card, a feature — the popup shows e.g.
+   `<Hero> src/components/Hero.jsx:7` or `<Features> src/components/Features.jsx:22`.
 3. **Drag** a box over several cards — captures the area + the components inside it.
 4. Type a note → **Add** → **Send**.
 
 (Click = element, drag = region. No mode switch.)
 
-Because annotations carry `component` + `source`, Claude Code edits the right
-component file directly (`src/components/Card.jsx`) instead of guessing from
+Because annotations carry `component` + `source`, your agent edits the right
+component file directly (`src/components/Hero.jsx`) instead of guessing from
 a selector.
 
 ## How the source info is obtained
