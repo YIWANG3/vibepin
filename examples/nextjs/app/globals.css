@@ -25,17 +25,17 @@ body {
 .hero h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; margin: 18px 0 0; font-weight: 800; }
 .hero h1 .accent { background: linear-gradient(92deg, #f5c518, #fcd34d);
   -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lede { color: var(--muted); font-size: 16px; max-width: 560px; margin: 16px auto 0; }
+.lede { color: var(--muted); font-size: 14px; max-width: 560px; margin: 16px auto 0; }
 .lede kbd { font-family: ui-monospace, Menlo, monospace; background: var(--surface);
   border: 1px solid var(--border); border-radius: 5px; padding: 1px 7px; color: var(--text); font-size: 12px; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.thumb { aspect-ratio: 4 / 3; background: linear-gradient(135deg, #2b3a55, #1a2233); }
-.tone-b .thumb { background: linear-gradient(135deg, #4a3b55, #221a2b); }
-.tone-c .thumb { background: linear-gradient(135deg, #3b5547, #1a2b22); }
-.tone-d .thumb { background: linear-gradient(135deg, #553b3b, #2b1a1a); }
-.tone-e .thumb { background: linear-gradient(135deg, #3b4d55, #1a262b); }
-.tone-f .thumb { background: linear-gradient(135deg, #55503b, #2b271a); }
+.thumb { aspect-ratio: 1 / 1; background: linear-gradient(135deg, #2b3a55, #1a2233); }
+.tone-b .thumb { background: var(--surface); }
+.tone-c .thumb { background: var(--surface); }
+.tone-d .thumb { background: var(--surface); }
+.tone-e .thumb { background: var(--surface); }
+.tone-f .thumb { background: var(--surface); }
 .meta { padding: 12px 14px; }
 .meta .title { font-size: 14px; font-weight: 600; }
 .meta .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
