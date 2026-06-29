@@ -238,6 +238,9 @@
     return s.lineNumber ? `${s.fileName}:${s.lineNumber}` : s.fileName;
   }
   function reactInfo(el) {
+    // In a production build component names are minified (e.g. <ie>) and there is
+    // no _debugSource — so skip React detection in demo and just use the selector.
+    if (DEMO) return null;
     let component = null, source = null;
     // data-attribute fallback (React 19 / react-dev-inspector / framework-agnostic)
     const dsEl = el.closest && el.closest('[data-source],[data-inspector-relative-path]');
