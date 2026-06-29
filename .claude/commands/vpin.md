@@ -1,30 +1,34 @@
 ---
-description: vibepin · 在当前项目启动省 token 的文件 watcher 循环
+description: vibepin · start the token-cheap file-watcher loop in this project
 ---
-监听本项目的 vibepin inbox,标注到达就实现 —— 用省 token 的方式。
-不要调用 `watch_annotations` MCP 工具(它是模型轮询,空闲也烧 token)。
+Watch this project's vibepin inbox and implement annotations as they arrive — the
+token-cheap way. Do NOT call the `watch_annotations` MCP tool (it polls and burns
+tokens while idle).
 
-前提:本项目已把 vibepin 作为依赖安装(`npx vibepin` 能解析到)。
+Prerequisite: this project has vibepin installed, so `npx vibepin` resolves.
 
-按下面做,然后循环:
+Do this, then loop:
 
-1. 用**后台任务**(run_in_background: true)启动,不要阻塞本轮:
+1. Launch in the BACKGROUND (run_in_background: true); do not block this turn:
    `npx vibepin watch`
-   (默认监听 `./.vibepin/inbox.jsonl`。)启动后本轮就结束,把输入权还给我。
+   (it watches `./.vibepin/inbox.jsonl` by default). Once it is running, end the turn
+   and hand control back to me.
 
-2. 当这个后台进程退出(说明来了新标注),运行:
+2. When that background process exits (a new annotation arrived), run:
    `npx vibepin claim`
-   它会打印一个 JSON 数组,逐条实现:
-   - `kind: "element"`:优先用 `component`+`source`(React)定位组件文件;没有就用 `selector`/`html`/`styles`。
-   - `kind: "region"`:用 `rect` + `elements`(框内的组件列表)。
-   改完简要说一句改了什么、动了哪些文件。
+   It prints a JSON array — implement each annotation:
+   - `kind: "element"` → prefer `component` + `source` (React) to open the right file;
+     otherwise use `selector` / `html` / `styles`.
+   - `kind: "region"` → use `rect` + `elements` (the components inside the box).
+   Briefly say what you changed and which files.
 
-3. 再次用后台任务挂上第 1 步的 `npx vibepin watch`,然后结束本轮。
+3. Re-launch step 1 (`npx vibepin watch`) in the background, then end the turn.
 
-watcher 在后台阻塞时你处于空闲、不花 token。其间我可能直接打字提别的需求(Node/utils/任何),
-正常处理即可,处理完确认 watcher 还挂着(没有就重新挂)。
+While the watcher is blocking you are idle and spend no tokens. I may type other
+(non-UI) requests in the meantime — handle them normally, then make sure the watcher
+is still armed (re-launch if needed).
 
-停止:杀掉后台的 watch 任务即可。
+To stop: kill the background watch task.
 
-> 发行副本。要在任意项目用 `/vpin`,运行 `npx vibepin init` 装到 `~/.claude/commands/`(命令是全局工具配置,
-> 不进你的项目 repo)。项目侧只需 `npm i -D vibepin`,repo 保持干净。
+> Distributed copy. To use `/vpin` in any project, run `npx vibepin init` (it copies
+> this into `~/.claude/commands/`). Your project only needs `npm i -D vibepin`.
