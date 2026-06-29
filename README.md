@@ -59,14 +59,17 @@ npm run dev                        # opens a dev server (Electron: a window) wit
 
 Below: architecture & reference.
 
+```mermaid
+flowchart LR
+  O["Overlay on any page<br/>⌥A · click / drag · note"] -- POST --> D["daemon :7331"]
+  D --> I[".vibepin/inbox.jsonl"]
+  I --> P{"your agent<br/>picks it up"}
+  P -- MCP --> M["watch_annotations<br/>long-poll → edit → loop"]
+  P -- file --> F["watch.js → claim.js<br/>edit → re-arm → loop"]
 ```
-[any page] annotate.js  ──POST──►  daemon :7331  ──►  .vibepin/inbox.jsonl
-   Alt+A, click, note                                        │ new annotation
-                                                              ▼
-   Claude Code waits on it, two interchangeable ways:
-     A) MCP   : watch_annotations (long-poll) → returns → edit → resolve → loop
-     B) file  : watch.js (blocks) → wakes → claim.js → edit → re-arm → loop
-```
+
+The agent gets the annotation in one of two interchangeable ways — an **MCP**
+`watch_annotations` long-poll, or a **zero-dep file watcher** (`watch.js` → `claim.js`).
 
 The architecture constraint this respects: an MCP server / browser extension can
 **never push** an agent turn — the agent (client) must initiate. So the wake is
