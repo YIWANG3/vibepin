@@ -47,6 +47,7 @@ npm run dev                        # opens a dev server (Electron: a window) wit
      import vibepin from 'vibepin/vite';
      export default defineConfig({ plugins: [vibepin()] }); // after react()
      ```
+   - **Next.js** — `withVibepin(nextConfig)` + a dev-only `<Script>` — see [adapters/nextjs.md](adapters/nextjs.md).
    - **Electron** — see [adapters/electron.md](adapters/electron.md).
    - **Anything else** — run `npx vibepin daemon`, then add
      `<script src="http://127.0.0.1:7331/annotate.js"></script>` to your dev HTML.
@@ -78,6 +79,7 @@ and lets the harness re-invoke the agent. Same loop, two transports.
 | Target | How to inject the overlay |
 |---|---|
 | **Owned web project** (Vite) | `devDependency` → `import vibepin from 'vibepin/vite'` — auto-spawns daemon + injects script in dev |
+| **Next.js** | `withVibepin(nextConfig)` + a dev-only `<Script>` in your layout — see [adapters/nextjs.md](adapters/nextjs.md) |
 | **Electron app** | dev-only `executeJavaScript` loader + optional pixel-perfect capture — see [adapters/electron.md](adapters/electron.md) |
 | **Any page / not yours** | `<script src="http://127.0.0.1:7331/annotate.js">`, a bookmarklet, or a thin browser extension that injects the same line |
 

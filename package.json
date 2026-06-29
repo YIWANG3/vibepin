@@ -32,6 +32,7 @@
   "exports": {
     ".": "./adapters/vite.js",
     "./vite": "./adapters/vite.js",
+    "./next": "./adapters/next.js",
     "./daemon": "./daemon/daemon.js",
     "./overlay": "./core/annotate.js"
   },

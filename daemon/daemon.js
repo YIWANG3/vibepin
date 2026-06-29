@@ -140,6 +140,16 @@ h1{font-size:18px;margin:0 0 6px}.muted{color:#888}</style></head>
   }
 });
 
+server.on('error', (e) => {
+  // Already running (e.g. another dev server spawned it) — not an error.
+  if (e.code === 'EADDRINUSE') {
+    console.log(`[vibepin] daemon already running on ${HOST}:${PORT} — reusing it`);
+    process.exit(0);
+  }
+  console.error('[vibepin] daemon error:', e.message);
+  process.exit(1);
+});
+
 server.listen(PORT, HOST, async () => {
   if (!existsSync(dirname(INBOX))) await mkdir(dirname(INBOX), { recursive: true }).catch(() => {});
   console.log(`[vibepin] daemon  http://${HOST}:${PORT}`);
