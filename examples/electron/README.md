@@ -5,7 +5,7 @@ Shows the Electron integration: inject the overlay in dev and expose
 
 ```bash
 npm install      # pulls electron
-npm start        # main.js spawns the daemon and opens the window
+npm run dev      # main.js spawns the daemon and opens the window (npm start also works)
 ```
 
 Then in the window:
