@@ -47,7 +47,7 @@
       annotate: '标注', annotating: '标注中',
       modeOn: '标注模式开 (⌥A / Esc 退出)', modeOff: '标注模式关',
       sent: (n) => `已发送 ${n} 条,Claude Code 会处理`, sendFail: '发送失败:',
-      empty: '还没有标注。点击 = 元素,拖拽 = 区域。',
+      empty: '还没有标注,点击或拖拽开始。',
       ph: '改这里要做什么?', cancel: '取消', add: '添加', save: '保存',
       count: (n) => `${n} 条`,
       tDrag: '拖动', tStatus: 'daemon 连接状态', tHide: '隐藏 · ⌥A 重新打开',
@@ -62,7 +62,7 @@
       annotate: 'Annotate', annotating: 'Annotating',
       modeOn: 'Annotate mode on (⌥A / Esc to exit)', modeOff: 'Annotate mode off',
       sent: (n) => `Sent ${n}. Claude Code will pick it up.`, sendFail: 'Send failed: ',
-      empty: 'No annotations yet. Click = element, drag = region.',
+      empty: 'No annotations yet — click or drag to start.',
       ph: 'What should change here?', cancel: 'Cancel', add: 'Add', save: 'Save',
       count: (n) => `${n}`,
       tDrag: 'Drag', tStatus: 'daemon status', tHide: 'Hide · ⌥A to reopen',
@@ -153,7 +153,7 @@
     .send{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
     .send:disabled{background:var(--ov-chip);color:var(--ov-faint);cursor:default}
     .clear{background:var(--ov-chip);color:var(--ov-text)}
-    .empty{padding:18px 12px;color:var(--ov-faint);font-size:12px;text-align:center}
+    .empty{padding:16px 12px;color:var(--ov-faint);font-size:11px;text-align:center;white-space:nowrap}
     .pop{position:fixed;z-index:2147483643;width:280px;background:var(--ov-bg);border:1px solid var(--ov-border);
          border-radius:10px;box-shadow:var(--ov-shadow);padding:10px;pointer-events:auto}
     .pop .sel{font-size:10px;color:var(--ov-sel);font-family:ui-monospace,Menlo,monospace;word-break:break-all;margin-bottom:6px}
