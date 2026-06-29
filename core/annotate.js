@@ -112,13 +112,13 @@
     .phead{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:grab;user-select:none}
     .phead:active{cursor:grabbing}
     .grip{display:flex;align-items:center;color:var(--ov-faint);cursor:grab}
-    .atog{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:var(--ov-chip);color:var(--ov-chip-text);padding:5px 12px 5px 10px;font-size:12px;border-radius:7px}
+    .atog{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;height:28px;background:var(--ov-chip);color:var(--ov-chip-text);padding:0 12px 0 10px;font-size:12px;border-radius:7px}
     .atog.on{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
     .grip svg,.atog svg,.setbtn svg,.hidebtn svg{display:block}
     .count{font-size:11px;color:var(--ov-muted);margin-left:auto}
-    .hidebtn{flex:0 0 auto;background:transparent;color:var(--ov-faint);padding:2px 7px;font-size:15px;line-height:1;border-radius:6px}
+    .hidebtn{flex:0 0 auto;height:28px;display:inline-grid;place-items:center;background:transparent;color:var(--ov-faint);padding:0 7px;border-radius:7px}
     .hidebtn:hover{color:#e05656}
-    .setbtn{flex:0 0 auto;background:transparent;color:var(--ov-muted);padding:3px 6px;font-size:13px;line-height:1;border-radius:6px}
+    .setbtn{flex:0 0 auto;height:28px;display:inline-grid;place-items:center;background:transparent;color:var(--ov-muted);padding:0 7px;border-radius:7px}
     .setbtn:hover{color:var(--ov-text)}
     .setbtn.on{background:var(--ov-seton);color:var(--ov-accent-ink)}
     .settings{padding:10px 12px;border-top:1px solid var(--ov-border2)}
@@ -131,7 +131,7 @@
     .setdiv{height:1px;background:var(--ov-border2);margin:12px 0}
     .setgt{color:var(--ov-faint);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
     .guide{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}
-    .gkey{justify-self:start;padding:2px 8px;background:var(--ov-bg2);border:1px solid var(--ov-border);border-radius:5px;
+    .gkey{justify-self:start;padding:3px 9px;background:var(--ov-chip);border-radius:6px;
           font:11px/1.5 ui-monospace,Menlo,monospace;color:var(--ov-text);white-space:nowrap}
     .gdesc{color:var(--ov-muted);font-size:12px}
     .status{width:8px;height:8px;border-radius:50%;background:#555;flex:0 0 auto}
