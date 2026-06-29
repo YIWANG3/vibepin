@@ -18,9 +18,9 @@ export default function Hero() {
       </div>
 
       <div className="tryhint">
-        👆 Every block here is a real React component. <b>Run this example locally</b> and{' '}
-        <span className="nb">press <kbd>⌥A</kbd></span> to annotate it — your agent edits the matching
-        file, e.g. <code>Hero.jsx</code>.
+        👆 <b>Try it right here</b> — <span className="nb">press <kbd>⌥A</kbd></span>, click an element,
+        write a note, hit Send. On this page it’s a demo toast; in your project it edits the matching
+        file (e.g. <code>Hero.jsx</code>).
       </div>
 
       <div className="codecard">

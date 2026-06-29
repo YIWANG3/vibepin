@@ -19,6 +19,9 @@
     return;
   }
 
+  // Demo mode (e.g. the hosted landing page): no daemon — Send just shows a toast.
+  const DEMO = !!window.__vibepinDemo;
+
   const ENDPOINT =
     (document.currentScript && new URL(document.currentScript.src).origin) ||
     'http://127.0.0.1:7331';
@@ -47,6 +50,7 @@
       annotate: '标注', annotating: '标注中',
       modeOn: '标注模式开 (⌥A / Esc 退出)', modeOff: '标注模式关',
       sent: (n) => `已发送 ${n} 条,Claude Code 会处理`, sendFail: '发送失败:',
+      demoSent: '演示:真实项目里这会发给你的 AI agent 去改代码。',
       empty: '还没有标注,点击或拖拽开始。',
       ph: '改这里要做什么?', cancel: '取消', add: '添加', save: '保存',
       count: (n) => `${n} 条`,
@@ -62,6 +66,7 @@
       annotate: 'Annotate', annotating: 'Annotating',
       modeOn: 'Annotate mode on (⌥A / Esc to exit)', modeOff: 'Annotate mode off',
       sent: (n) => `Sent ${n}. Claude Code will pick it up.`, sendFail: 'Send failed: ',
+      demoSent: 'Demo — in a real project this goes to your AI agent to edit the code.',
       empty: 'No annotations yet — click or drag to start.',
       ph: 'What should change here?', cancel: 'Cancel', add: 'Add', save: 'Save',
       count: (n) => `${n}`,
@@ -503,6 +508,7 @@
 
   async function send() {
     if (!pending.length) return;
+    if (DEMO) { pending.length = 0; renderList(); toast(t('demoSent')); return; }
     const payload = pending.map(({ _el, ...rest }) => rest);
     try {
       const res = await fetch(ENDPOINT + '/annotations', {
@@ -620,8 +626,8 @@
       statusEl.title = t('sNo');
     }
   }
-  checkHealth();
-  setInterval(checkHealth, 10000);
+  if (DEMO) { statusEl.style.display = 'none'; }
+  else { checkHealth(); setInterval(checkHealth, 10000); }
   pheadEl.addEventListener('mousedown', (e) => {
     if (e.target.closest('button')) return;    // buttons aren't drag handles
     const r = panel.getBoundingClientRect();
