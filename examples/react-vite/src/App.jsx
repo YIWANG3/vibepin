@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
+import Demo from './components/Demo.jsx';
 import Steps from './components/Steps.jsx';
 import Features from './components/Features.jsx';
 import Footer from './components/Footer.jsx';
@@ -13,6 +14,7 @@ export default function App() {
     <>
       <Nav />
       <Hero />
+      <Demo />
       <Steps />
       <Features />
       <Footer />

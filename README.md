@@ -2,6 +2,8 @@
 
 **Drop a pin on any UI, write what to change — your AI coding agent edits the source.**
 
+[![vibepin — drop a pin on any UI, your AI agent edits the source](examples/react-vite/public/demo.png)](https://yiwang3.github.io/vibepin)
+
 In-browser visual annotation → local inbox → your agent picks it up and applies the change.
 No screenshots, no copy-paste, no describing *which* element. Works on any Chromium page —
 a web dev server **or** an Electron renderer — with React component + `file:line` detection.
@@ -13,7 +15,7 @@ a web dev server **or** an Electron renderer — with React component + `file:li
 
 Works with **Claude Code** out of the box; any MCP-capable agent via the MCP tools.
 
-> 🌐 **Live demo** (press ⌥A right on the page): https://yiwang3.github.io/vibepin
+> 🌐 **Live demo** (press ⌥A right on the page): https://yiwang3.github.io/vibepin · ▶ [watch the demo](https://yiwang3.github.io/vibepin/demo.mp4)
 > 📖 Chinese quickstart: [GETTING_STARTED.md](GETTING_STARTED.md)
 
 ## Quick start

@@ -125,7 +125,7 @@
     .hidebtn:hover{color:#e05656}
     .setbtn{flex:0 0 auto;height:28px;display:inline-grid;place-items:center;background:transparent;color:var(--ov-muted);padding:0 7px;border-radius:7px}
     .setbtn:hover{color:var(--ov-text)}
-    .setbtn.on{background:var(--ov-seton);color:var(--ov-accent-ink)}
+    .setbtn.on{background:var(--ov-accent);color:var(--ov-ink)}
     .settings{padding:10px 12px;border-top:1px solid var(--ov-border2)}
     .setrow{display:flex;align-items:center;justify-content:space-between}
     .setrow+.setrow{margin-top:10px}
@@ -143,7 +143,7 @@
     .status.ok{background:#36d399}
     .pin{position:fixed;z-index:2147483641;transform:translate(-50%,-50%);min-width:18px;height:18px;padding:0 4px;
          border-radius:9px;background:#f5c518;color:#1a1a1a;font-size:11px;font-weight:700;line-height:18px;
-         text-align:center;cursor:pointer;pointer-events:auto;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+         text-align:center;cursor:pointer;pointer-events:auto;box-shadow:0 1px 3px rgba(0,0,0,.22)}
     .body{border-top:1px solid var(--ov-border2)}
     .list{max-height:240px;overflow:auto}
     .row{padding:8px 12px;border-bottom:1px solid var(--ov-row);display:flex;gap:8px;align-items:flex-start}
@@ -152,7 +152,7 @@
     .row .nt{font-size:12px;color:var(--ov-text);margin-top:2px}
     .row .x{margin-left:auto;color:var(--ov-muted);cursor:pointer;pointer-events:auto;font-size:14px;line-height:1}
     .row .x:hover{color:#e05656}
-    .pinno{flex:0 0 auto;width:16px;height:16px;border-radius:8px;background:var(--ov-chip);color:var(--ov-accent-ink);font-size:10px;font-weight:700;line-height:16px;text-align:center}
+    .pinno{flex:0 0 auto;width:16px;height:16px;border-radius:8px;background:var(--ov-accent);color:var(--ov-ink);font-size:10px;font-weight:700;line-height:16px;text-align:center}
     .foot{display:flex;gap:8px;padding:10px 12px}
     button{flex:1;border:0;border-radius:8px;padding:9px;font-size:13px;cursor:pointer;pointer-events:auto}
     .send{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
