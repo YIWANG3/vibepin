@@ -14,7 +14,7 @@ a web dev server **or** an Electron renderer — with React component + `file:li
 Works with **Claude Code** out of the box; any MCP-capable agent via the MCP tools.
 
 > 🌐 **Live demo / landing page:** https://yiwang3.github.io/vibepin
-> 🚀 中文上手指南:[GETTING_STARTED.md](GETTING_STARTED.md)
+> 📖 Chinese quickstart: [GETTING_STARTED.md](GETTING_STARTED.md)
 
 ## Quick start
 
