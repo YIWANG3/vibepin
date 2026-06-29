@@ -1,4 +1,5 @@
 import React from 'react';
+import ThemeToggle from './ThemeToggle.jsx';
 
 export default function Nav() {
   return (
@@ -10,6 +11,7 @@ export default function Nav() {
           <a href="#features">Features</a>
           <a href="https://github.com/YIWANG3/vibepin">GitHub</a>
         </div>
+        <ThemeToggle />
         <a className="btn primary" href="https://github.com/YIWANG3/vibepin">Get started</a>
       </div>
     </nav>
