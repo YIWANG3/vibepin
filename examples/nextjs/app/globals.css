@@ -31,11 +31,11 @@ body {
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
 .thumb { aspect-ratio: 1 / 1; background: linear-gradient(135deg, #2b3a55, #1a2233); }
-.tone-b .thumb { background: var(--surface); }
-.tone-c .thumb { background: var(--surface); }
-.tone-d .thumb { background: var(--surface); }
-.tone-e .thumb { background: var(--surface); }
-.tone-f .thumb { background: var(--surface); }
+.tone-b .thumb { background: #3a2b55; }
+.tone-c .thumb { background: #2b5547; }
+.tone-d .thumb { background: #553b3b; }
+.tone-e .thumb { background: #2b3d55; }
+.tone-f .thumb { background: #55502b; }
 .meta { padding: 12px 14px; }
 .meta .title { font-size: 14px; font-weight: 600; }
 .meta .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
