@@ -13,7 +13,8 @@ a web dev server **or** an Electron renderer — with React component + `file:li
 - Two pickup modes: a **zero-dep file watcher**, or an **MCP** `watch_annotations` tool.
 - Fully local. No cloud, no account, no API key.
 
-Works with **Claude Code** out of the box; any MCP-capable agent via the MCP tools.
+Works with **Claude Code** out of the box; **Codex**, **Cursor**, and **Antigravity**
+via `vibepin init --agent <name>` or the MCP tools — any MCP-capable agent, really.
 
 > 🌐 **Live demo** (press ⌥A right on the page): https://yiwang3.github.io/vibepin · ▶ [watch the demo](https://yiwang3.github.io/vibepin/demo.mp4)
 > 📖 Chinese quickstart: [GETTING_STARTED.md](GETTING_STARTED.md)
@@ -151,11 +152,32 @@ hands-free, worse for cost. Needs `npm install` (pulls `@modelcontextprotocol/sd
 
 Both modes read the same `.vibepin/inbox.jsonl`.
 
+## Other agents (Codex · Cursor · Antigravity)
+
+The loop is agent-agnostic — only the wiring differs. `init` writes that agent's
+`/vpin` command/prompt (the token-cheap file-watcher loop) and prints its MCP
+snippet as the alternative:
+
+```bash
+npx vibepin init --agent codex        # ~/.codex/prompts/vpin.md
+npx vibepin init --agent cursor       # .cursor/commands/vpin.md (run in your project)
+npx vibepin init --agent antigravity  # MCP-only — prints the snippet to register
+npx vibepin init --agent all          # all of the above + Claude Code
+```
+
+Per-agent details: [adapters/codex.md](adapters/codex.md) ·
+[adapters/cursor.md](adapters/cursor.md) · [adapters/antigravity.md](adapters/antigravity.md).
+All transports read the same `.vibepin/inbox.jsonl`.
+
 ## Overlay UX
 
 - **Alt+A** toggle. Hover highlights; the tag shows `tag#id.class`.
 - Click → popup with the resolved CSS selector → type a note → **Add** (or ⌘/Ctrl+Enter).
 - Bottom-right panel batches them; **Send** POSTs the batch. **Esc** exits.
+- **Copy** serializes the batch to a plain-text block (component + `file:line`, note,
+  region elements, page URL) and puts it on your clipboard — paste it into *any* agent
+  (Claude Code, Codex, Cursor, ChatGPT, …). **Zero setup**: no daemon pickup, no watch
+  loop, no MCP — the lowest-friction, fully non-invasive way to hand off.
 - Each annotation carries: `selector`, `rect`, truncated `outerHTML`, a curated
   `getComputedStyle` subset, `note`, `url`, and (if `window.__vibepinCapture` exists) a screenshot.
 

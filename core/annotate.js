@@ -51,6 +51,8 @@
       modeOn: '标注模式开 (⌥A / Esc 退出)', modeOff: '标注模式关',
       sent: (n) => `已发送 ${n} 条,Claude Code 会处理`, sendFail: '发送失败:',
       demoSent: '演示:真实项目里这会发给你的 AI agent 去改代码。',
+      copy: '复制', copied: (n) => `已复制 ${n} 条,粘贴给你的 AI agent`, copyFail: '复制失败,请手动选择文本',
+      copyIntro: '请按这些 UI 修改要求改代码:',
       empty: '还没有标注,点击或拖拽开始。',
       ph: '改这里要做什么?', cancel: '取消', add: '添加', save: '保存',
       count: (n) => `${n} 条`,
@@ -67,6 +69,8 @@
       modeOn: 'Annotate mode on (⌥A / Esc to exit)', modeOff: 'Annotate mode off',
       sent: (n) => `Sent ${n}. Claude Code will pick it up.`, sendFail: 'Send failed: ',
       demoSent: 'Demo — in a real project this goes to your AI agent to edit the code.',
+      copy: 'Copy', copied: (n) => `Copied ${n} — paste into your AI agent.`, copyFail: 'Copy failed — select the text manually.',
+      copyIntro: 'Apply these UI change requests:',
       empty: 'No annotations yet — click or drag to start.',
       ph: 'What should change here?', cancel: 'Cancel', add: 'Add', save: 'Save',
       count: (n) => `${n}`,
@@ -158,6 +162,8 @@
     .send{background:var(--ov-accent);color:var(--ov-ink);font-weight:600}
     .send:disabled{background:var(--ov-chip);color:var(--ov-faint);cursor:default}
     .clear{background:var(--ov-chip);color:var(--ov-text)}
+    .copy{background:var(--ov-chip);color:var(--ov-text)}
+    .copy:disabled{color:var(--ov-faint);cursor:default}
     .empty{padding:16px 12px;color:var(--ov-faint);font-size:11px;text-align:center;white-space:nowrap}
     .pop{position:fixed;z-index:2147483643;width:280px;background:var(--ov-bg);border:1px solid var(--ov-border);
          border-radius:10px;box-shadow:var(--ov-shadow);padding:10px;pointer-events:auto}
@@ -187,7 +193,7 @@
     </div>
     <div class="body hidden">
       <div class="list"></div>
-      <div class="foot"><button class="clear">Clear</button><button class="send" disabled>Send 0</button></div>
+      <div class="foot"><button class="clear">Clear</button><button class="copy" disabled>Copy</button><button class="send" disabled>Send 0</button></div>
     </div>
     <div class="settings hidden"></div>
   </div>
@@ -199,7 +205,7 @@
         pheadEl = $('.phead'), bodyEl = $('.body'), atogBtn = $('.atog'), hideBtn = $('.hidebtn'),
         setBtn = $('.setbtn'), settingsEl = $('.settings'), atogLabel = $('.atog-label'),
         listEl = $('.list'), countEl = $('.count'), sendBtn = $('.send'),
-        clearBtn = $('.clear'), toastEl = $('.toast');
+        clearBtn = $('.clear'), copyBtn = $('.copy'), toastEl = $('.toast');
 
   // ---- helpers -----------------------------------------------------------
   function cssPath(el) {
@@ -464,6 +470,8 @@
     countEl.textContent = pending.length;
     sendBtn.textContent = `Send ${pending.length}`;
     sendBtn.disabled = pending.length === 0;
+    copyBtn.textContent = t('copy');
+    copyBtn.disabled = pending.length === 0;
     updatePanel();
     if (!pending.length) { listEl.innerHTML = `<div class="empty">${esc(t('empty'))}</div>`; repositionPins(); return; }
     listEl.innerHTML = '';
@@ -529,7 +537,57 @@
     }
   }
 
+  // ---- copy to clipboard (no daemon / agent needed — paste anywhere) -----
+  function clipboardText() {
+    const lines = [t('copyIntro'), ''];
+    pending.forEach((p, i) => {
+      let head;
+      if (p.component) head = `<${p.component}>` + (p.source ? ` — ${p.source}` : '');
+      else if (p.kind === 'region') head = `region ${p.rect.w}×${p.rect.h}` + (p.source ? ` — ${p.source}` : '');
+      else head = p.selector || '(element)';
+      lines.push(`${i + 1}. ${head}`);
+      if (p.note) lines.push(`   ${p.note}`);
+      if (p.kind === 'region' && p.elements && p.elements.length) {
+        let skipped = false;   // drop the one component already shown as the head
+        const els = p.elements
+          .filter((e) => {
+            if (!skipped && p.component && e.component === p.component) { skipped = true; return false; }
+            return true;
+          })
+          .map((e) => e.component ? `<${e.component}>` : e.selector)
+          .filter(Boolean).slice(0, 8);
+        if (els.length) lines.push(`   elements: ${els.join(', ')}`);
+      }
+      lines.push('');
+    });
+    lines.push(`page: ${location.href}`);
+    return lines.join('\n');
+  }
+
+  async function copyPending() {
+    if (!pending.length) return;
+    const text = clipboardText();
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('no clipboard API');
+      await navigator.clipboard.writeText(text);
+      toast(t('copied')(pending.length));
+    } catch {
+      // fallback for insecure contexts / older Electron webviews
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        toast(ok ? t('copied')(pending.length) : t('copyFail'), ok);
+      } catch { toast(t('copyFail'), false); }
+    }
+  }
+
   sendBtn.addEventListener('click', send);
+  copyBtn.addEventListener('click', copyPending);
   clearBtn.addEventListener('click', () => { pending.length = 0; renderList(); });
 
   // ---- toggle (capture mode; the panel itself stays put) -----------------
